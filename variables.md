@@ -283,5 +283,3 @@ When naming variables, it’s important to follow **best practices** for readabi
    - **Good**: `int mathStudents`
 
 ---
-
-Would you like to see code examples implementing these conventions or explore variable scope and lifetime?
