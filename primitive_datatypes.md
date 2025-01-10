@@ -117,7 +117,7 @@ If you need to work with very large integers or high-precision decimal values th
 
 If you are working with values that should not change, such as the maximum value, minimum value, or fixed settings, declare them as final variables. This ensures the value can’t be modified and is more efficient at compile-time.
 
-    ```public static final int MAX_SPEED = 120;```
+public static final int MAX_SPEED = 120;
 
 Summary of Best Practices:
 
