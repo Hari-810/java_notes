@@ -29,14 +29,24 @@ In Java, variables are used to store data that can be manipulated and referenced
   - Each object of the class has its own copy of instance variables.
   - Initialized to default values if not explicitly set (e.g., `0` for integers, `null` for objects).
   - Lifetime depends on the object.
+- **Access**:
+
+  - They can only be accessed after an object is created because they belong to that specific object.
+  - Each object has its own copy of instance variables.
+
 - **Example**:
+
   ```java
-  public class Example {
-      int instanceVariable; // Instance variable
-      public void display() {
-          System.out.println("Instance Variable: " + instanceVariable);
-      }
-  }
+    public class Example {
+        int instanceVariable = 10; // Instance variable
+
+        public static void main(String[] args) {
+            Example obj = new Example(); // Object creation
+            System.out.println(obj.instanceVariable); // Accessing instance variable
+        }
+    }
+
+    # Output: 10
   ```
 
 ---
@@ -48,14 +58,43 @@ In Java, variables are used to store data that can be manipulated and referenced
   - Memory is allocated only once at the class level.
   - Can be accessed without creating an object of the class.
   - Lifetime is tied to the class, not the object.
+  -
+- **Access**:
+
+  - They can be accessed without creating an object, directly using the class name.
+  - They can also be accessed using an object reference, but it's not recommended as it reduces clarity.
+
 - **Example**:
+  #Access Examples: Without Object Creation:
+
   ```java
+
+
+    public class Example {
+        static int staticVariable = 20; // Static variable
+
+        public static void main(String[] args) {
+            System.out.println(Example.staticVariable); // Accessing static variable using class name
+        }
+    }
+
+    # Output: 20
+  ```
+
+  #With Object Creation:
+
+  ```java
+
   public class Example {
-      static int staticVariable = 100; // Static variable
-      public void display() {
-          System.out.println("Static Variable: " + staticVariable);
-      }
+  static int staticVariable = 20; // Static variable
+
+  public static void main(String[] args) {
+      Example obj = new Example(); // Object creation
+      System.out.println(obj.staticVariable); // Accessing static variable using object
   }
+  }
+
+  # Output: 20
   ```
 
 ---
