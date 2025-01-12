@@ -44,6 +44,13 @@ public class MainApp {
 
 - Overuse can expose sensitive code.
 
+**note**
+
+- in Java, a single .java file can only contain one public class. The name of the file must match the name of the public class inside it.
+- You can have multiple classes in a single file.
+- Only one class can be public, and it must match the file name.
+- The other classes can be non-public, and they don’t need to match the file name.
+
 ---
 
 #### **b. `private`**
