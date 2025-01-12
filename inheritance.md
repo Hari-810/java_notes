@@ -1,4 +1,4 @@
-### Inheritance in Java
+## Inheritance in Java
 
 **Definition**:  
 Inheritance is a mechanism in object-oriented programming (OOP) that allows one class (child/subclass) to inherit properties and behaviors (fields and methods) from another class (parent/superclass). It promotes code reuse and establishes a relationship between classes.
@@ -289,3 +289,88 @@ Ideal for large-scale applications where classes need to inherit various capabil
 
 5. **Hybrid Inheritance**:  
    Ideal for complex systems where a class needs to adopt behaviors from both a class and multiple interfaces (e.g., `AbstractShape` class with interfaces like `Drawable`, `Movable`).
+
+---
+
+## `super` keyword
+
+The `super` keyword in Java is used to refer to the immediate parent class of the current class. It can be used in several different ways:
+
+1. **Accessing Parent Class Constructor:**
+   The `super()` constructor is used to call the parent class constructor from the child class. If no constructor is explicitly defined in the child class, the default constructor of the parent class will be called automatically.
+
+   ```java
+   class Animal {
+       Animal() {
+           System.out.println("Animal class constructor");
+       }
+   }
+
+   class Dog extends Animal {
+       Dog() {
+           super();  // Calls the parent class constructor
+           System.out.println("Dog class constructor");
+       }
+   }
+
+   public class Main {
+       public static void main(String[] args) {
+           Dog dog = new Dog();
+       }
+   }
+   ```
+
+2. **Accessing Parent Class Methods:**
+   The `super` keyword can be used to call methods of the parent class that may be overridden in the child class.
+
+   ```java
+   class Animal {
+       void sound() {
+           System.out.println("Animal makes a sound");
+       }
+   }
+
+   class Dog extends Animal {
+       void sound() {
+           super.sound();  // Calls the parent class method
+           System.out.println("Dog barks");
+       }
+   }
+
+   public class Main {
+       public static void main(String[] args) {
+           Dog dog = new Dog();
+           dog.sound();  // Outputs both the parent and child class methods
+       }
+   }
+   ```
+
+3. **Accessing Parent Class Fields:**
+   If a field is present in both the parent and child class, the `super` keyword can be used to access the parent class's field directly.
+
+   ```java
+   class Animal {
+       String name = "Animal";
+   }
+
+   class Dog extends Animal {
+       String name = "Dog";
+
+       void display() {
+           System.out.println("Child class name: " + name);  // Prints child class field
+           System.out.println("Parent class name: " + super.name);  // Prints parent class field
+       }
+   }
+
+   public class Main {
+       public static void main(String[] args) {
+           Dog dog = new Dog();
+           dog.display();
+       }
+   }
+   ```
+
+4. **Accessing Parent Class Instance:**
+   You can use `super` to reference an instance of the parent class explicitly in the child class, but this is generally uncommon.
+
+The `super` keyword is primarily used to improve code clarity and to maintain a clear structure between inherited classes.
