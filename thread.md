@@ -1,3 +1,132 @@
+### **Thread Model in Java**
+
+The **thread model** in Java is based on the concept of multiple threads of execution running concurrently in a program. Each thread represents a separate path of execution, allowing tasks to be performed in parallel or concurrently. Java provides built-in support for multi-threading through the `Thread` class and the `Runnable` interface.
+
+Threads in Java are managed by the **Java Virtual Machine (JVM)** and are scheduled for execution by the **operating system**. Java's thread model supports both **user-level threads** (created and managed by the JVM) and **kernel-level threads** (managed by the OS).
+
+Java supports **preemptive multitasking**, where the JVM or the OS determines when and how long each thread will run. Threads can interact with each other, share resources, and communicate using synchronization mechanisms.
+
+### **Thread Life Cycle**
+
+A thread in Java goes through several states during its lifetime, controlled by various methods in the `Thread` class. The thread life cycle can be summarized as follows:
+
+1. **New (Born/Created)**
+
+   - When a thread is created but not yet started, it is in the **New** state.
+   - A thread enters the **New** state when a `Thread` object is instantiated but the `start()` method is not yet called.
+
+   ```java
+   Thread t = new Thread();  // Thread is in New state
+   ```
+
+2. **Runnable (Ready to Run)**
+
+   - Once the `start()` method is called, the thread enters the **Runnable** state.
+   - The thread is ready to be picked up by the **thread scheduler** and can execute its `run()` method.
+   - A thread in the **Runnable** state may either be executing or waiting for its turn to execute.
+
+   ```java
+   t.start();  // Thread is now in Runnable state
+   ```
+
+3. **Blocked (Waiting for a Lock)**
+
+   - A thread enters the **Blocked** state when it is trying to acquire a lock (e.g., during synchronized blocks or methods) and another thread is holding that lock.
+   - It will stay in this state until the lock becomes available.
+
+   ```java
+   synchronized (lockObject) {
+       // Thread may enter Blocked state if lock is not available
+   }
+   ```
+
+4. **Waiting (Waiting for a Condition)**
+
+   - A thread enters the **Waiting** state when it explicitly calls `wait()`, `join()`, or `sleep()`, and it is waiting for some condition or event to occur (like the completion of another thread).
+   - A thread in this state is not eligible for execution until it is notified or the specified time passes.
+
+   ```java
+   thread1.join();  // thread1 enters Waiting state until thread1 finishes
+   ```
+
+5. **Timed Waiting (Waiting with Time Limit)**
+
+   - A thread enters the **Timed Waiting** state when it is waiting for a specific amount of time to pass. This can happen when `sleep()` or `join()` with a timeout is called.
+
+   ```java
+   thread.sleep(1000);  // Thread will sleep for 1 second, enters Timed Waiting state
+   ```
+
+6. **Terminated (Dead)**
+
+   - A thread enters the **Terminated** state when it has finished executing its `run()` method or if it is **terminated** due to an exception or a call to `stop()`.
+   - A thread that has completed its execution is said to be **dead** and cannot be restarted.
+
+   ```java
+   // Thread has finished execution and is now in Terminated state
+   ```
+
+---
+
+### **Thread Life Cycle Flow Diagram**
+
+Here’s a simple visual representation of the thread life cycle:
+
+```
+       +------------------+
+       |   New (Born)     |  <-- Thread is created
+       +------------------+
+               |
+               V
+       +------------------+
+       |  Runnable (Ready)|
+       |  (Ready to Run)  |  <-- start() method is called
+       +------------------+
+               |
+               V
+    +----------------------+
+    |   Running (Executing)|  <-- Thread is executing its run() method
+    +----------------------+
+               |
+    +---------------------------+
+    |    Blocked (Waiting Lock) | <-- Waiting for lock on synchronized block
+    +---------------------------+
+               |
+    +-------------------+
+    |   Waiting (Waiting)|
+    |   or Timed Waiting |  <-- wait(), join(), sleep() is called
+    +-------------------+
+               |
+               V
+       +------------------+
+       |   Terminated     |  <-- Thread completes execution
+       +------------------+
+```
+
+### **Methods that affect Thread Life Cycle:**
+
+- **`start()`**: Starts the thread and transitions it from **New** to **Runnable** state.
+- **`run()`**: Defines the task or code that the thread will execute when started.
+- **`sleep(long millis)`**: Causes the thread to sleep for the specified time, transitioning it to the **Timed Waiting** state.
+- **`wait()`**: Causes the current thread to wait until another thread sends a signal (transitions to **Waiting** state).
+- **`join()`**: Causes the current thread to wait until the thread on which `join()` is called terminates (transitions to **Waiting** or **Timed Waiting** state).
+- **`interrupt()`**: Interrupts a thread that is in **Blocked**, **Waiting**, or **Timed Waiting** state.
+- **`isAlive()`**: Checks if the thread is still alive (i.e., if it is in the **Runnable** or **Running** state).
+- **`stop()`** (deprecated): Terminates the thread immediately (not recommended due to potential issues).
+
+---
+
+## **Summary of Thread Life Cycle:**
+
+- **New**: Thread is created but not started yet.
+- **Runnable**: Thread is ready to execute or is running.
+- **Blocked**: Thread is blocked while waiting for a resource (e.g., a lock).
+- **Waiting**: Thread is waiting indefinitely for another thread to perform a specific action.
+- **Timed Waiting**: Thread is waiting for a specific time limit.
+- **Terminated**: Thread has finished executing or is dead.
+
+By understanding the thread life cycle, developers can better control the execution flow of concurrent tasks, manage synchronization, and prevent potential issues such as deadlocks and race conditions.
+
 Threads in Java enable concurrent execution, allowing multiple tasks to run in parallel within a single application. Below are several examples of threading in Java, each distinct in concepts, with pros and cons, and real-world examples.
 
 ### 1. **Basic Thread Creation Using `Thread` Class**
@@ -305,6 +434,8 @@ These examples show different aspects of threading in Java. Depending on the use
 Here are a few complex examples that demonstrate advanced threading concepts in Java. These examples involve thread synchronization, thread pooling, managing shared resources, and handling more intricate multi-threading scenarios.
 
 ---
+
+## Examples
 
 ### 1. **Producer-Consumer Problem with Blocking Queues**
 
@@ -649,7 +780,7 @@ To avoid deadlock, the threads should acquire the locks in the same order:
 - Careful synchronization is required to avoid deadlocks.
 - Performance may degrade if threads frequently contend for locks.
 
-#### Real-Time Example:
+## Real-Time Scenario:
 
 This scenario can occur in **multi-threaded database systems** where different threads lock tables or records in different orders, potentially causing deadlocks.
 
