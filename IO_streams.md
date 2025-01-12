@@ -292,43 +292,47 @@ public class BufferedReaderExample {
 #### Example:
 
 ```java
-import java.io.Console;
-import java.io.File;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
-public class ConsoleExample {
+public class BufferedReaderExample {
     public static void main(String[] args) {
-        Console console = System.console();
-        if (console == null) {
-            System.out.println("No console available.");
-            return;
-        }
-
-        // Reading password using Console
-        char[] passwordArray = console.readPassword("Enter your password: ");
-        String password = new String(passwordArray);
-        System.out.println("Password entered: " + password);
-
-        // Reading a file and printing its content
+        // Reading user input using BufferedReader
         try {
-            File file = new File("input.txt");
-            Scanner fileScanner = new Scanner(file);
-            while (fileScanner.hasNextLine()) {
-                String line = fileScanner.nextLine();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Enter your favorite color: ");
+            String color = reader.readLine();
+            System.out.println("Your favorite color is " + color);
+
+            // Reading file and printing content
+            BufferedReader fileReader = new BufferedReader(new FileReader("input.txt"));
+            String line;
+            while ((line = fileReader.readLine()) != null) {
                 System.out.println(line);
             }
-            fileScanner.close();
 
-            // Saving content in a folder
+            // Creating the output folder if it doesn't exist
+            File outputFolder = new File("output_folder");
+            if (!outputFolder.exists()) {
+                outputFolder.mkdir(); // This creates the folder if it doesn't exist
+                System.out.println("Output folder created.");
+            }
+
+            // Saving content in the folder
             FileWriter writer = new FileWriter("output_folder/output.txt");
-            writer.write("Password: " + password + "\n");
-            fileScanner = new Scanner(file);
-            while (fileScanner.hasNextLine()) {
-                writer.write(fileScanner.nextLine() + "\n");
+            writer.write("Favorite color: " + color + "\n");
+            fileReader.close();
+            fileReader = new BufferedReader(new FileReader("input.txt"));
+            while ((line = fileReader.readLine()) != null) {
+                writer.write(line + "\n");
             }
             writer.close();
-            fileScanner.close();
+            fileReader.close();
             System.out.println("Content saved in output_folder/output.txt");
 
         } catch (IOException e) {
@@ -336,6 +340,7 @@ public class ConsoleExample {
         }
     }
 }
+
 ```
 
 #### Pros:
