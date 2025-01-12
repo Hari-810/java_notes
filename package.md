@@ -125,6 +125,50 @@ public class Main {
 - Complex package structures can increase project build time.
 - Must carefully handle the `import` statements to avoid conflicts.
 
+#### Example 3. **Sub-packages** (Nested Packages)
+
+In Java, you can also create sub-packages inside a package, forming a hierarchical structure.
+
+##### Example of Sub-packages:
+
+```
+com/
+└── example/
+    ├── myapp/
+    │   └── Main.java
+    └── util/
+        └── Helper.java
+```
+
+Here, `com.example.myapp` is a package, and `com.example.util` is a sub-package of `com.example`.
+
+##### **Helper.java** (inside the `com.example.util` sub-package):
+
+```java
+package com.example.util;
+
+public class Helper {
+    public void greet() {
+        System.out.println("Hello from Helper class!");
+    }
+}
+```
+
+##### **Main.java** (inside the `com.example.myapp` package):
+
+```java
+package com.example.myapp;
+
+import com.example.util.Helper;
+
+public class Main {
+    public static void main(String[] args) {
+        Helper helper = new Helper();
+        helper.greet();
+    }
+}
+```
+
 #### Where Can Packages Be Applied in Bigger Applications?
 
 1. **Modularization**: Large-scale applications like e-commerce platforms can use packages to separate functionality into modules (e.g., `com.ecommerce.payment`, `com.ecommerce.user`).
@@ -132,6 +176,24 @@ public class Main {
 3. **Code Reusability**: Creating utility packages like `com.myapp.util` for helper classes used throughout the application.
 4. **Security**: Packages help with setting access modifiers, restricting access to certain classes or methods based on the package.
 5. **Libraries**: You can organize classes into packages and distribute them as libraries for others to use (e.g., database access, authentication).
+
+#### Types of Packages Summary:
+
+1. **Built-in Packages**:
+
+   - Part of the Java Standard Library.
+   - Examples: `java.lang`, `java.util`, `java.io`, `java.net`, `javax.swing`.
+   - Automatically available for use without needing imports (e.g., `java.lang`).
+
+2. **User-defined Packages**:
+
+   - Packages created by developers to organize their classes.
+   - Examples: `com.example.myapp`, `org.myproject.services`.
+   - Allow for better modularization and code reuse.
+
+3. **Sub-packages**:
+   - Packages can contain other packages (sub-packages), forming a hierarchy.
+   - Example: `com.example.myapp` can contain `com.example.myapp.utils` as a sub-package.
 
 #### Example of Package Use in a Bigger Application (Layered Architecture):
 
