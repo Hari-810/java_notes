@@ -1,4 +1,4 @@
-### Arrays in Java
+## Arrays in Java
 
 An **array** in Java is a collection of elements of the same type, stored in contiguous memory locations. Arrays are fixed in size and allow random access to elements using their index.
 
@@ -237,7 +237,40 @@ public class DynamicArray {
 
 ---
 
-### ArrayList in Java
+# List
+
+In Java, a **List** is an interface from the **`java.util`** package that represents an ordered collection (also known as a sequence). It allows duplicate elements and provides positional access and manipulation.
+
+The **`List`** interface is implemented by several classes, including:
+
+1. **ArrayList**: A resizable array implementation.
+2. **LinkedList**: A doubly-linked list implementation.
+3. **Vector**: A synchronized implementation of List.
+4. **Stack**: A subclass of Vector that implements a last-in-first-out stack.
+
+---
+
+### **Key Features of List**
+
+1. **Ordered Collection**: Elements are stored in the order they are inserted.
+2. **Allows Duplicates**: Multiple elements with the same value can exist.
+3. **Indexed Access**: Elements can be accessed using their index.
+4. **Dynamic Size**: Most implementations of `List` (e.g., `ArrayList`, `LinkedList`) grow dynamically.
+
+---
+
+### **Basic Methods of List**
+
+- **`add(E e)`**: Adds an element to the end of the list.
+- **`add(int index, E e)`**: Adds an element at a specified index.
+- **`get(int index)`**: Retrieves the element at the specified index.
+- **`remove(int index)`**: Removes the element at the specified index.
+- **`set(int index, E e)`**: Replaces the element at the specified index.
+- **`size()`**: Returns the number of elements in the list.
+
+---
+
+## ArrayList in Java
 
 An **ArrayList** in Java is part of the `java.util` package and is a resizable array implementation of the `List` interface. Unlike arrays, **ArrayList** allows dynamic resizing and supports a variety of built-in methods for manipulation.
 
@@ -534,33 +567,219 @@ public class SearchArrayList {
 
 ---
 
-### Differences Between Array and ArrayList in Java
+## LinkedList
 
-Here’s a comparison of **Array** and **ArrayList** in a tabular format:
+A **LinkedList** in Java is a linear data structure where elements, known as nodes, are connected using pointers. Each node contains two parts:
 
-| **Feature**                       | **Array**                                                                     | **ArrayList**                                                                                                   |
-| --------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| **Definition**                    | A fixed-size collection of elements of the same type.                         | A resizable array implementation from the `java.util` package.                                                  |
-| **Size**                          | Fixed at the time of declaration.                                             | Dynamic, resizes automatically when elements are added or removed.                                              |
-| **Type of Data**                  | Supports both primitive types (e.g., `int`, `float`) and objects.             | Works with objects only (uses wrapper classes for primitives).                                                  |
-| **Performance**                   | Faster for accessing and manipulating elements due to direct indexing.        | Slightly slower due to dynamic resizing and extra method calls.                                                 |
-| **Memory Usage**                  | Efficient in terms of memory as no resizing overhead.                         | Consumes more memory due to dynamic resizing and internal mechanisms.                                           |
-| **Element Insertion/Deletion**    | Requires manual shifting of elements; cumbersome for frequent operations.     | Simplified with built-in methods (`add`, `remove`), but less efficient for frequent operations due to shifting. |
-| **Accessing Elements**            | Accessed using the index (`array[index]`).                                    | Accessed using the `get(index)` method.                                                                         |
-| **Type Safety**                   | Ensures type safety at the time of declaration.                               | Provides type safety with generics (e.g., `ArrayList<Integer>`).                                                |
-| **Initialization**                | Must define the size explicitly or use an initializer block.                  | Can be created without specifying size, grows dynamically.                                                      |
-| **Length/Size Retrieval**         | Use `.length` to get the size of the array.                                   | Use `.size()` method to get the size of the ArrayList.                                                          |
-| **Flexibility**                   | Limited to fixed size and homogeneous data.                                   | Highly flexible, supports dynamic resizing and generics.                                                        |
-| **Part of Collections Framework** | No, arrays are not part of the Collections Framework.                         | Yes, part of the `java.util` package and implements `List`.                                                     |
-| **Sorting**                       | Needs manual implementation or use of `Arrays.sort()`.                        | Simplified using `Collections.sort()` method.                                                                   |
-| **Multidimensional Support**      | Supports multidimensional arrays (e.g., `int[][]`).                           | Multidimensional structures are managed using nested ArrayLists.                                                |
-| **Thread-Safety**                 | Not thread-safe.                                                              | Not thread-safe by default; requires synchronization.                                                           |
-| **Usage**                         | Suitable for small, fixed-size datasets or performance-critical applications. | Ideal for dynamic datasets with frequent additions/removals.                                                    |
-| **Example**                       | `int[] numbers = new int[5];`                                                 | `ArrayList<Integer> numbers = new ArrayList<>();`                                                               |
+1. **Data**: The actual data or value.
+2. **Pointer/Reference**: A reference to the next (and sometimes previous) node in the list.
+
+Java provides the **`LinkedList` class** as part of the **`java.util` package**, which implements the **`List`**, **`Deque`**, and **`Queue`** interfaces.
 
 ---
 
-### Key Takeaways:
+### **Characteristics of LinkedList:**
 
-- Use **Array** when you know the size of your dataset and performance is critical.
-- Use **ArrayList** for dynamic datasets or when you need built-in methods for easier manipulation.
+- **Dynamic Size**: Unlike arrays, linked lists grow and shrink dynamically without wasting memory.
+- **Efficient Insertions/Deletions**: Adding or removing elements is efficient since there’s no need to shift elements.
+- **Sequential Access**: Accessing elements is slower because you must traverse the list from the start to find an element.
+
+---
+
+### **Basic Operations with Examples**
+
+#### 1. **Creating and Adding Elements**
+
+```java
+import java.util.LinkedList;
+
+public class LinkedListExample {
+    public static void main(String[] args) {
+        LinkedList<String> list = new LinkedList<>();
+
+        // Adding elements
+        list.add("Apple");
+        list.add("Banana");
+        list.add("Cherry");
+
+        System.out.println("LinkedList: " + list); // Output: [Apple, Banana, Cherry]
+    }
+}
+```
+
+**Concept:** Demonstrates basic creation and usage of a LinkedList.  
+**Pros:** Simple and quick setup.  
+**Cons:** Does not show specific advantages over other structures like ArrayList.
+
+---
+
+#### 2. **Using LinkedList as a Queue**
+
+```java
+import java.util.LinkedList;
+
+public class QueueExample {
+    public static void main(String[] args) {
+        LinkedList<String> queue = new LinkedList<>();
+
+        // Adding elements to the queue
+        queue.offer("Task 1");
+        queue.offer("Task 2");
+        queue.offer("Task 3");
+
+        // Processing elements
+        while (!queue.isEmpty()) {
+            System.out.println("Processing: " + queue.poll());
+        }
+    }
+}
+```
+
+**Concept:** Use LinkedList as a queue (FIFO).  
+**Real-Life Example:** Managing tasks in a print queue.  
+**Pros:** Efficient for insertion and deletion at the ends.  
+**Cons:** Accessing middle elements is slower.
+
+---
+
+#### 3. **Using LinkedList as a Deque**
+
+```java
+import java.util.LinkedList;
+
+public class DequeExample {
+    public static void main(String[] args) {
+        LinkedList<String> deque = new LinkedList<>();
+
+        // Adding elements at both ends
+        deque.addFirst("First");
+        deque.addLast("Last");
+
+        // Removing elements from both ends
+        System.out.println("Removed First: " + deque.removeFirst());
+        System.out.println("Removed Last: " + deque.removeLast());
+    }
+}
+```
+
+**Concept:** Use LinkedList as a double-ended queue.  
+**Real-Life Example:** Implementing undo/redo functionality in an editor.  
+**Pros:** Flexibility to add/remove elements from both ends.  
+**Cons:** Increased overhead due to maintaining double references.
+
+---
+
+#### 4. **Reversing a LinkedList**
+
+```java
+import java.util.LinkedList;
+import java.util.Collections;
+
+public class ReverseExample {
+    public static void main(String[] args) {
+        LinkedList<Integer> list = new LinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        Collections.reverse(list);
+
+        System.out.println("Reversed LinkedList: " + list); // Output: [3, 2, 1]
+    }
+}
+```
+
+**Concept:** Reversing the order of elements.  
+**Real-Life Example:** Scheduling events in reverse chronological order.  
+**Pros:** Built-in methods simplify operations.  
+**Cons:** Performance may degrade for large datasets due to iteration.
+
+---
+
+#### 5. **Iterating Through a LinkedList**
+
+```java
+import java.util.LinkedList;
+
+public class IterateExample {
+    public static void main(String[] args) {
+        LinkedList<String> list = new LinkedList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        // Using a for-each loop
+        for (String item : list) {
+            System.out.println(item);
+        }
+
+        // Using an iterator
+        System.out.println("Using Iterator:");
+        var iterator = list.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
+}
+```
+
+**Concept:** Different ways to traverse a LinkedList.  
+**Real-Life Example:** Displaying records from a database query.  
+**Pros:** Flexible traversal methods.  
+**Cons:** Iterators may throw `ConcurrentModificationException` if the list is modified during traversal.
+
+---
+
+#### 6. **Removing Duplicates**
+
+```java
+import java.util.LinkedList;
+
+public class RemoveDuplicatesExample {
+    public static void main(String[] args) {
+        LinkedList<Integer> list = new LinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(1);
+        list.add(3);
+        list.add(2);
+
+        LinkedList<Integer> uniqueList = new LinkedList<>();
+        for (int num : list) {
+            if (!uniqueList.contains(num)) {
+                uniqueList.add(num);
+            }
+        }
+
+        System.out.println("Original: " + list);
+        System.out.println("Without Duplicates: " + uniqueList);
+    }
+}
+```
+
+**Concept:** Removing duplicate elements.  
+**Real-Life Example:** Cleaning up duplicate user entries in a list.  
+**Pros:** Simple approach for smaller datasets.  
+**Cons:** Inefficient for large lists due to `contains` lookup time.
+
+---
+
+### **Pros of LinkedList**
+
+1. **Dynamic Size**: Can grow or shrink dynamically.
+2. **Efficient Insertions/Deletions**: Especially at the head or tail.
+3. **Flexibility**: Can be used as a list, queue, or deque.
+
+### **Cons of LinkedList**
+
+1. **Sequential Access**: Slower access time compared to arrays.
+2. **Memory Overhead**: Each node requires extra memory for storing references.
+3. **Cache Unfriendliness**: Nodes are scattered in memory, causing cache misses.
+
+---
+
+### **Real-World Applications**
+
+1. **Undo/Redo in Text Editors**: LinkedList is used to maintain a history of changes.
+2. **Music Playlist**: Playing songs in a circular loop or jumping to the next/previous song.
+3. **Task Scheduling**: Managing job queues for processing.
