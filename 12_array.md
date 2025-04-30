@@ -226,6 +226,69 @@ public class DynamicArray {
 2. **Homogeneous Data Only:** Cannot mix types.
 3. **No Built-in Flexibility:** Need to write additional logic for operations like insertion or deletion.
 
+In Java, **`Array`** and **`ArrayList`** are both used to store collections of elements, but they differ significantly in behavior, flexibility, and usage.
+
+Here’s a clear comparison:
+
+---
+
+#### 🔹 1. **Size**
+
+- **Array**: Fixed size (set at the time of creation).
+- **ArrayList**: Dynamic size (automatically grows or shrinks).
+
+```java
+int[] arr = new int[5];                 // Fixed size array
+ArrayList<Integer> list = new ArrayList<>();  // Dynamic size list
+```
+
+---
+
+#### 🔹 2. **Type Support**
+
+- **Array**: Can store **primitive types** (`int`, `char`, etc.) and objects.
+- **ArrayList**: Only stores **objects** (use wrapper classes like `Integer`, `Double`, etc.).
+
+```java
+int[] nums = {1, 2, 3};           // Valid
+ArrayList<int> nums = new ArrayList<>();  // ❌ Invalid
+ArrayList<Integer> nums = new ArrayList<>(); // ✅ Valid
+```
+
+---
+
+#### 🔹 3. **Performance**
+
+- **Array**: Slightly faster, less overhead (better for performance-critical applications).
+- **ArrayList**: Slightly slower due to dynamic resizing and object handling.
+
+---
+
+#### 🔹 4. **Methods**
+
+- **Array**: No built-in methods except through `Arrays` utility class (`Arrays.sort`, `Arrays.toString`, etc.).
+- **ArrayList**: Rich API (e.g., `add()`, `remove()`, `contains()`, `size()`).
+
+---
+
+#### 🔹 5. **Syntax and Flexibility**
+
+| Feature     | Array                     | ArrayList                                      |
+| ----------- | ------------------------- | ---------------------------------------------- |
+| Declaration | `int[] arr = new int[3];` | `ArrayList<Integer> list = new ArrayList<>();` |
+| Add element | `arr[0] = 1;`             | `list.add(1);`                                 |
+| Get element | `arr[0]`                  | `list.get(0);`                                 |
+| Length/Size | `arr.length`              | `list.size()`                                  |
+
+---
+
+#### 🔹 When to Use What?
+
+| Use Case                            | Choose    |
+| ----------------------------------- | --------- |
+| Fixed-size and performance-critical | Array     |
+| Need dynamic resizing, rich methods | ArrayList |
+
 ---
 
 ### Real-Time Applications of Arrays:
