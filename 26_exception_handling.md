@@ -43,6 +43,81 @@ Throwable
 
 ##### Example Code:
 
+Here is a **very simple Java program** that demonstrates **basic error handling** using `try`, `catch`, and `finally` blocks:
+
+```java
+public class SimpleErrorHandling {
+    public static void main(String[] args) {
+        try {
+            // Simple code that may cause an exception
+            int number = 10;
+            int result = number / 0;  // This will throw ArithmeticException
+            System.out.println("Result: " + result);
+        } catch (ArithmeticException e) {
+            // This block will execute if an arithmetic error occurs
+            System.out.println("Error: Cannot divide by zero!");
+        } finally {
+            // This block always runs
+            System.out.println("Program finished.");
+        }
+    }
+}
+```
+
+### Explanation:
+
+- `try`: Wraps the code that might throw an exception.
+- `catch`: Catches the specific exception (`ArithmeticException` here) and handles it.
+- `finally`: Executes whether or not an exception was thrown (used for cleanup).
+
+### Output:
+
+```
+Error: Cannot divide by zero!
+Program finished.
+```
+
+##### Example Code:
+
+### ✅ Modified Simple Java Program with `throw`:
+
+```java
+public class SimpleErrorHandling {
+    public static void main(String[] args) {
+        try {
+            int number = 10;
+            int divisor = 0;
+
+            if (divisor == 0) {
+                // Manually throw an exception
+                throw new ArithmeticException("Divisor cannot be zero");
+            }
+
+            int result = number / divisor;
+            System.out.println("Result: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("Caught an exception: " + e.getMessage());
+        } finally {
+            System.out.println("Program finished.");
+        }
+    }
+}
+```
+
+### 💡 What's New Here:
+
+- We **manually throw** an `ArithmeticException` using `throw new ArithmeticException("...")`.
+- The `catch` block still handles the exception and prints the message.
+
+### ✅ Output:
+
+```
+Caught an exception: Divisor cannot be zero
+Program finished.
+```
+
+##### Example Code:
+
 **File Name: `ExceptionHandlingExample.java`**
 
 ```java
