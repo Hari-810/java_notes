@@ -53,7 +53,7 @@ public class SimpleErrorHandling {
             int number = 10;
             int result = number / 0;  // This will throw ArithmeticException
             System.out.println("Result: " + result);
-        } catch (ArithmeticException e) {
+        } catch (ArithmeticException e) {   //  to catch any exception use catch (Exception e)
             // This block will execute if an arithmetic error occurs
             System.out.println("Error: Cannot divide by zero!");
         } finally {
