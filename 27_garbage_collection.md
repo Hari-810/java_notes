@@ -331,6 +331,8 @@ Sure! Here's a **clear breakdown** of the differences between **Heap** and **Sta
 
 ## 🧠 Java Memory Areas: Heap vs Stack
 
+![alt text](image.png)
+
 | Aspect                 | **Stack Memory**                               | **Heap Memory**                    |
 | ---------------------- | ---------------------------------------------- | ---------------------------------- |
 | **Purpose**            | Stores method call frames and local variables  | Stores all Java objects and arrays |
