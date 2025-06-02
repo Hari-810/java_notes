@@ -324,3 +324,117 @@ End of program.
 - **Used memory increases slightly** after object creation.
 - **Used memory may decrease** after `System.gc()` — but this is **not guaranteed**, as GC timing is JVM-controlled.
 - `totalMemory()` and `freeMemory()` reflect **heap memory only**, not stack or native memory.
+
+Sure! Here's a **clear breakdown** of the differences between **Heap** and **Stack** memory in Java, with practical insights and examples.
+
+---
+
+## 🧠 Java Memory Areas: Heap vs Stack
+
+| Aspect                 | **Stack Memory**                               | **Heap Memory**                    |
+| ---------------------- | ---------------------------------------------- | ---------------------------------- |
+| **Purpose**            | Stores method call frames and local variables  | Stores all Java objects and arrays |
+| **Location**           | RAM – per thread (each thread has its own)     | RAM – shared among all threads     |
+| **Lifetime**           | Tied to method execution                       | Tied to object references          |
+| **Access**             | Fast (LIFO access)                             | Slower than stack, but flexible    |
+| **Managed by**         | Compiler / JVM thread management               | Garbage Collector                  |
+| **Size**               | Typically smaller                              | Larger, limited by `-Xmx` JVM flag |
+| **Garbage Collected?** | ❌ No (automatically removed when method ends) | ✅ Yes (GC frees unused objects)   |
+
+---
+
+## 🔄 Visual Example
+
+### Code:
+
+```java
+public class MemoryDemo {
+    public static void main(String[] args) {
+        int x = 10; // Stored on Stack
+        String str = new String("Hello"); // Reference on Stack, object in Heap
+    }
+}
+```
+
+### Memory Layout:
+
+```
+STACK (per thread):
+-------------------------
+| x   = 10               |
+| str ---> (Heap ref)   |
+-------------------------
+
+HEAP (shared):
+-------------------------
+| String object:        |
+| value = "Hello"       |
+-------------------------
+```
+
+---
+
+## 📦 Heap Memory: Details
+
+### What's stored:
+
+- All **objects** (e.g., `new Person()`, arrays)
+- All instance variables
+- Contents of objects (fields, char arrays in Strings, etc.)
+
+### Controlled by Garbage Collector:
+
+- Objects with **no live references** are marked for collection
+- Can be tuned with JVM flags (e.g., `-Xmx512m` for max heap)
+
+### Heap OutOfMemory Example:
+
+```java
+List<int[]> list = new ArrayList<>();
+while (true) {
+    list.add(new int[1000000]); // Will eventually throw OutOfMemoryError
+}
+```
+
+---
+
+## 📑 Stack Memory: Details
+
+### What's stored:
+
+- **Primitive types**: `int`, `float`, etc.
+- **References** to heap objects
+- **Function call context** (parameters, return address, etc.)
+
+### Automatically managed:
+
+- When a method is called, a new "stack frame" is created.
+- When the method returns, that frame is removed.
+
+### Stack Overflow Example:
+
+```java
+public class StackOverflowExample {
+    public static void recurse() {
+        recurse(); // infinite recursion → StackOverflowError
+    }
+
+    public static void main(String[] args) {
+        recurse();
+    }
+}
+```
+
+---
+
+## ⚖️ Heap vs Stack Summary
+
+| Feature            | Stack                        | Heap                      |
+| ------------------ | ---------------------------- | ------------------------- |
+| Scope              | Local to method/thread       | Global/shared             |
+| Lifespan           | Short (until method returns) | Long (until GC removes)   |
+| Error Type         | `StackOverflowError`         | `OutOfMemoryError`        |
+| Performance        | Very fast                    | Slower, but flexible      |
+| Manual Management? | No                           | Partially (via GC tuning) |
+
+---
