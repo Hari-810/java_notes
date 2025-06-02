@@ -93,3 +93,234 @@ class Person {
 ### Conclusion:
 
 Garbage Collection is a fundamental feature in Java, offering ease of use by automating memory management. However, understanding its trade-offs, like performance overhead and timing unpredictability, is important, especially in performance-sensitive applications. Fine-tuning GC behavior using JVM options can help in managing larger applications effectively, especially when combined with other performance optimization techniques.
+
+### Simple example 01:
+
+Let's break it down from a **Java memory model perspective**, focusing on how **memory (heap vs. stack)** and **object references** behave at each stage of your code.
+
+We'll also touch on the **byte-level implications**, keeping things high-level and intuitive without diving into raw memory addresses.
+
+---
+
+### 💻 Code Again (for reference):
+
+```java
+public class SimpleGCDemo {
+    public static void main(String[] args) {
+        String str = new String("Hello, GC!");
+        str = null;
+        System.gc();
+        System.out.println("End of program.");
+    }
+}
+```
+
+---
+
+## 🧠 Java Memory Areas Involved
+
+| Memory Area                            | Description                                                                                                        |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **Stack**                              | Stores local variables and function call frames (`str` variable). Fast and cleared automatically when method ends. |
+| **Heap**                               | Stores objects like `new String("Hello, GC!")`. Managed by the Garbage Collector.                                  |
+| **Method Area (MetaSpace in Java 8+)** | Stores class definitions, constants, method code, etc.                                                             |
+
+---
+
+## 🔬 Step-by-Step: Memory + Bytes at Each Stage
+
+### 🔹 Step 1: `String str = new String("Hello, GC!");`
+
+#### What happens:
+
+- `"Hello, GC!"` — a **string literal** — goes into the **String pool** (in method area).
+- `new String("Hello, GC!")` — creates a new `String` object on the **heap**, **copying** the value from the pool.
+- A **reference** to that object is stored in the **stack** under the name `str`.
+
+#### Memory Layout:
+
+```
+Stack:
+| str | ---> (reference to heap object)
+
+Heap:
+| String object |
+| value: "Hello, GC!" (char[]) |
+```
+
+> 📦 **Bytes used:**
+
+- Stack: \~4 or 8 bytes (depending on JVM architecture — 32-bit vs 64-bit) for the reference.
+- Heap:
+
+  - Object header (\~12-16 bytes)
+  - Reference to char array
+  - char array (2 bytes per char × 10 = 20 bytes)
+  - Padding/alignment (\~8+ bytes)
+
+Estimated total: **\~40–60 bytes** on heap for the object + array.
+
+---
+
+### 🔹 Step 2: `str = null;`
+
+#### What happens:
+
+- `str` on the **stack** is now set to `null`.
+- The heap object is now **unreachable** (no references to it).
+- It's eligible for garbage collection.
+
+#### Memory Layout:
+
+```
+Stack:
+| str | ---> null
+
+Heap:
+| String object |   <- still there, but unreferenced
+```
+
+> 📦 **Bytes used:**
+
+- **Stack** still uses space for the `str` reference.
+- **Heap** still has the \~40–60 bytes allocated, **until** GC actually runs.
+
+---
+
+### 🔹 Step 3: `System.gc();`
+
+#### What happens:
+
+- JVM receives a **request** to run the garbage collector.
+- If GC runs and detects that the object is unreachable:
+
+  - It will **free up the heap memory**.
+  - The memory will be **reclaimed**, not immediately zeroed, but marked for reuse.
+
+#### Memory Layout (after GC, if collected):
+
+```
+Stack:
+| str | ---> null
+
+Heap:
+[Freed memory block available for reuse]
+```
+
+> 📦 **Bytes used:**
+
+- **Stack** still uses a small amount for `str`.
+- **Heap** memory is **freed**, so used memory goes down.
+
+---
+
+### 🔹 Step 4: `System.out.println("End of program.");`
+
+- Program ends.
+- Stack is cleared automatically.
+- All memory (stack + heap) is reclaimed when JVM exits.
+
+---
+
+## 🧾 Summary Table
+
+| Stage        | Stack          | Heap                      | Memory Notes                  |
+| ------------ | -------------- | ------------------------- | ----------------------------- |
+| After Step 1 | `str` → object | 1 `String` object (\~50B) | Both used                     |
+| After Step 2 | `str` → null   | Still exists, unreachable | Stack OK, heap not reused yet |
+| After Step 3 | `str` → null   | Object likely collected   | Heap memory reclaimed         |
+| After End    | Stack cleared  | Heap cleared              | All memory freed              |
+
+---
+
+### Simple example 02:
+
+Java program that shows **memory usage before and after garbage collection**, using the `Runtime` class.
+
+---
+
+### ✅ Java Program: Track Memory Before and After GC
+
+```java
+public class GCMemoryTracker {
+    public static void main(String[] args) {
+        Runtime runtime = Runtime.getRuntime();
+
+        // Print memory before object creation
+        System.out.println("Memory before creating object:");
+        printMemory(runtime);
+
+        // Create object
+        String str = new String("Hello, GC!");
+
+        System.out.println("\nMemory after creating object:");
+        printMemory(runtime);
+
+        // Make the object eligible for garbage collection
+        str = null;
+
+        // Suggest garbage collection
+        System.out.println("\nRequesting garbage collection...");
+        System.gc();
+
+        // Allow time for GC to run (optional, helps in some JVMs)
+        try {
+            Thread.sleep(1000); // 1 second
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("\nMemory after requesting GC:");
+        printMemory(runtime);
+
+        System.out.println("\nEnd of program.");
+    }
+
+    private static void printMemory(Runtime runtime) {
+        long total = runtime.totalMemory(); // total heap memory
+        long free = runtime.freeMemory();   // free memory
+        long used = total - free;
+
+        System.out.println("Total Memory: " + bytesToKB(total) + " KB");
+        System.out.println("Free Memory:  " + bytesToKB(free) + " KB");
+        System.out.println("Used Memory:  " + bytesToKB(used) + " KB");
+    }
+
+    private static long bytesToKB(long bytes) {
+        return bytes / 1024;
+    }
+}
+```
+
+---
+
+### Sample Output (will vary by machine and JVM):
+
+```
+Memory before creating object:
+Total Memory: 15872 KB
+Free Memory:  10240 KB
+Used Memory:  5632 KB
+
+Memory after creating object:
+Total Memory: 15872 KB
+Free Memory:  10180 KB
+Used Memory:  5692 KB
+
+Requesting garbage collection...
+
+Memory after requesting GC:
+Total Memory: 15872 KB
+Free Memory:  10300 KB
+Used Memory:  5572 KB
+
+End of program.
+```
+
+---
+
+### 🔍 Notes:
+
+- **Used memory increases slightly** after object creation.
+- **Used memory may decrease** after `System.gc()` — but this is **not guaranteed**, as GC timing is JVM-controlled.
+- `totalMemory()` and `freeMemory()` reflect **heap memory only**, not stack or native memory.
