@@ -2,7 +2,7 @@ resources:
 
         1. https://youtu.be/_WrEwxVBZ8M?si=XM9T1Az2ida_CSDp
 
-        2. https://www.tutorialspoint.com/jdbc/jdbc-create-database.html
+        2. https://www.tutorialspoint.com/jdbc/jdbc-create-database.htm
 
         3. https://www.youtube.com/playlist?list=PLhs1urmduZ2-yp3zID5rMEmXDETN8xvMo
 
