@@ -126,3 +126,103 @@ class DatabaseHandler {
 - **User** → holds cleaned, structured data
 - **DatabaseHandler** → inserts structured data into MySQL
 - **MainApp** → coordinates the full flow
+
+---
+
+## 🔄 **Overall Flow of the Project**
+
+---
+
+### **1. User Input Stage**
+
+**Class:** `InputReader`
+
+- Prompts the user for input fields:
+
+  - Name, Age, Email, Phone, Gender, Country, Date of Birth
+
+- Collects them as a `Map<String, String>` (raw data)
+- Returns this map to the main application
+
+🧠 _Raw input data is unvalidated and unformatted._
+
+---
+
+### **2. Data Preprocessing Stage**
+
+**Class:** `DataProcessor`
+
+- Takes the `Map<String, String>` from `InputReader`
+- Validates and normalizes each field:
+
+  - Trims spaces, standardizes casing (e.g., lowercase country, removes non-numeric characters in phone)
+  - Converts `age` to `int`, checks valid date format for `dob`, etc.
+
+- Constructs a `User` object with clean, structured values
+- Returns the `User` object
+
+🧠 _This stage ensures data integrity before insertion._
+
+---
+
+### **3. Database Handling Stage**
+
+**Class:** `DatabaseHandler`
+
+- Initialized with MySQL connection details
+- On initialization:
+
+  - Connects to the MySQL server
+  - Checks if the target database exists; creates it if not
+  - Connects to the target DB
+  - Checks if the `users` table exists; creates it if not
+
+- Uses the `User` object to insert a new record into the table
+- Closes the connection
+
+🧠 _Handles schema setup and inserts data safely using prepared statements._
+
+---
+
+### **4. Orchestration Layer**
+
+**Class:** `MainApp` (or equivalent)
+
+- Entry point of the application
+- Coordinates the whole flow:
+
+  ```java
+  InputReader reader = new InputReader();
+  Map<String, String> rawInput = reader.readFromConsole();
+
+  DataProcessor processor = new DataProcessor();
+  User user = processor.preprocess(rawInput);
+
+  DatabaseHandler db = new DatabaseHandler(...);
+  db.insertUser(user);
+  db.close();
+  ```
+
+🧠 _Acts as the glue between input, preprocessing, and storage._
+
+---
+
+## 🔁 **Visual Flow**
+
+```text
+User (console input)
+   ↓
+InputReader.readFromConsole()
+   ↓
+Raw Map<String, String>
+   ↓
+DataProcessor.preprocess()
+   ↓
+Clean User object
+   ↓
+DatabaseHandler.insertUser(user)
+   ↓
+Stored in MySQL database ✅
+```
+
+---
